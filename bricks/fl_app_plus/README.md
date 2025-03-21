@@ -25,7 +25,7 @@ Simple brick to create flutter app with my favorite stacks.
 * Can change package import alias via `pubspec.yaml` project name.
 
   ```dart
-  // instead this default package import
+  // Instead this default package import
   import "package:my_flutter_app/main.dart";
 
   // You can do this
@@ -36,7 +36,7 @@ Simple brick to create flutter app with my favorite stacks.
 
 [release-please-action]: https://github.com/googleapis/release-please-action
 
-* Generate workflow that automates versioning and web deploy to github pages
+* CI/CD that automates versioning and web deploy to github pages
   with the help of [release-please-action].
 
 ## Getting Started

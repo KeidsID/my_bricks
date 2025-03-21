@@ -1,0 +1,12 @@
+{
+	"group-pull-request-title-pattern": "chore: release-${version}",
+	"packages": {
+		".": {
+			"release-type": "simple",
+			"include-component-in-tag": false
+		},
+		"bricks/fl_app_plus": {
+			"release-type": "simple"
+		}
+	}
+}
