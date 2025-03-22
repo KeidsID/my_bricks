@@ -1,0 +1,12 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        options:
+          to_json: false
+          copy_with: false
+          equal: true
+      json_serializable:
+        options:
+          explicit_to_json: true
+          # field_rename: snake

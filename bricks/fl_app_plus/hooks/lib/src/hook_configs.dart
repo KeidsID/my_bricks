@@ -1,5 +1,7 @@
 import "package:mason/mason.dart";
 
+import "hardcoded_workflows.dart" as workflows;
+
 typedef HookConfigsGetter<T> = ({String key, T value});
 
 enum BrickVars {
@@ -7,7 +9,9 @@ enum BrickVars {
   desc._("desc"),
   org._("org"),
   appName._("app-name"),
-  importAlias._("import-alias");
+  importAlias._("import-alias"),
+  gitlintScopes._("gitlint-scopes"),
+  gitlintRefPrefix._("gitlint-ref-prefix");
 
   const BrickVars._(this.key);
 
@@ -25,6 +29,22 @@ class HookConfigs {
 
   /// {@macro fla.hooks.HookConfigs}
   const HookConfigs(this.context);
+
+  /// Return every vars getters.
+  List<HookConfigsGetter> get getters => [
+    projectName,
+    desc,
+    org,
+    appName,
+    importAlias,
+    gitlintScopes,
+    hasGitlintScopes,
+    gitlintRefPrefix,
+    hasGitlintRefPrefix,
+    cdWorkflow,
+    ciPrWorkflow,
+    ciWorkflow
+  ];
 
   Map<String, dynamic> get _vars => context.vars;
 
@@ -67,6 +87,67 @@ class HookConfigs {
     if (raw is String && raw.isNotEmpty) value = raw;
 
     return (key: key, value: ImportAlias(value.snakeCase));
+  }
+
+  HookConfigsGetter<List> get gitlintScopes {
+    final key = BrickVars.gitlintScopes.key;
+    final raw = _vars[key];
+
+    if (raw is List) return (key: key, value: raw);
+
+    return (key: key, value: []);
+  }
+
+  /// Indicate that [gitlintScopes] is not empty.
+  ///
+  /// Used by brick to do conditional build.
+  HookConfigsGetter<bool> get hasGitlintScopes {
+    final key = "has-${BrickVars.gitlintScopes.key}";
+
+    return (key: key, value: gitlintScopes.value.isNotEmpty);
+  }
+
+  HookConfigsGetter<String> get gitlintRefPrefix {
+    final key = BrickVars.gitlintRefPrefix.key;
+    final raw = _vars[key] as String;
+    String value = raw;
+
+    if (raw != "#") {
+      if (!raw.endsWith("-")) value = "$raw-";
+    }
+
+    return (key: key, value: value);
+  }
+
+  /// Indicate that [gitlintRefPrefix] is not use default value.
+  ///
+  /// Used by brick to do conditional build.
+  HookConfigsGetter<bool> get hasGitlintRefPrefix {
+    final key = "has-${BrickVars.gitlintRefPrefix.key}";
+    final refPrefix = gitlintRefPrefix.value;
+
+    return (key: key, value: refPrefix != "#" || refPrefix.isEmpty);
+  }
+
+  HookConfigsGetter<String> get cdWorkflow {
+    final key = "cd-workflow";
+    final value = workflows.getCdWorkflow("/${projectName.value}/");
+
+    return (key: key, value: value);
+  }
+
+  HookConfigsGetter<String> get ciPrWorkflow {
+    final key = "ci-pr-workflow";
+    final value = workflows.ciPrWorkflow;
+
+    return (key: key, value: value);
+  }
+
+  HookConfigsGetter<String> get ciWorkflow {
+    final key = "ci-workflow";
+    final value = workflows.ciWorkflow;
+
+    return (key: key, value: value);
   }
 }
 
