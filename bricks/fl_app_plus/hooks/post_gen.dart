@@ -11,24 +11,7 @@ Future<void> run(HookContext context) async {
   final importAlias = configs.importAlias.value;
   final appName = configs.appName.value;
 
-  final progress = log.progress("Setup project...");
-
-  Directory.current = "./$projectName";
-  final setupResults = await Future.wait([
-    runFlutter(["pub", "get"]),
-    runDart(["run", "husky", "install"]),
-    runDart(["run", "build_runner", "-d"]),
-  ]);
-  final isSetupSuccess = setupResults.every((e) => e.exitCode == 0);
-
-  if (isSetupSuccess) {
-    progress.complete();
-  } else {
-    progress.fail();
-    log.info("");
-    log.warn("Fail to setup project.");
-    log.info("Because it fails, follow the setup guide on README.md");
-  }
+  await runSetup(context);
 
   log.info("");
   log.success("And that's it!");
@@ -62,4 +45,55 @@ Future<ProcessResult> runFlutter(List<String> args) async {
   if (flutterResult.exitCode == 0) return flutterResult;
 
   return Process.run("fvm", ["flutter", ...args]);
+}
+
+Future<void> runSetup(HookContext context) async {
+  final log = context.logger;
+  final configs = HookConfigs(context);
+
+  final projectName = configs.projectName.value;
+
+  final preSetupProgress = log.progress("Resolving dependencies...");
+
+  Directory.current = "./$projectName";
+  final preSetupResults = await Future.wait([
+    Process.run("git", ["init", "-b=main"]),
+    runFlutter(["pub", "get"]),
+  ]);
+  final isPreSetupSuccess = preSetupResults.every((e) => e.exitCode == 0);
+
+  isPreSetupSuccess ? preSetupProgress.complete() : preSetupProgress.fail();
+
+  final setupProgress = log.progress("Setup project...");
+
+  final setupFutures = Future.wait([
+    runDart(["run", "build_runner", "build", "-d"]),
+    runDart(["run", "husky", "install"]),
+  ]);
+  List<String> setupFails = [];
+  final isSetupSuccess =
+      isPreSetupSuccess
+          ? (await setupFutures).every((result) {
+            final isSuccess = result.exitCode == 0;
+
+            if (!isSuccess) {
+              setupFails = [...setupFails, "${result.stdout}"];
+            }
+
+            return isSuccess;
+          })
+          : false;
+
+  if (isSetupSuccess) {
+    setupProgress.complete();
+  } else {
+    setupProgress.fail();
+    log.info("");
+
+    for (var msg in setupFails) {
+      log.warn(msg);
+    }
+    log.warn("Fail to setup project.");
+    log.info("Because it fails, follow the setup guide on README.md");
+  }
 }
