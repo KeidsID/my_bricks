@@ -1,0 +1,16 @@
+# https://github.com/hyiso/commitlint/blob/main/lib/commitlint.yaml
+include: package:commitlint_cli/commitlint.yaml
+
+{{#has-gitlint-ref-prefix}}parser:
+  issuePrefixes: [{{gitlint-ref-prefix}}]{{/has-gitlint-ref-prefix}}
+
+# https://hyiso.github.io/commitlint/#/references-rules
+rules:
+  {{#has-gitlint-scopes}}scope-enum:
+    - 2
+    - always
+    - {{#gitlint-scopes}}- {{.}}
+      {{/gitlint-scopes}}{{/has-gitlint-scopes}}
+  references-empty:
+    - 2
+    - never

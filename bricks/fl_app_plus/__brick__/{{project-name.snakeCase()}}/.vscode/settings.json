@@ -1,0 +1,6 @@
+{
+  "files.exclude": {
+    "{.dart_tool,.fvm,.idea}": true,
+    "**/*.{g,freezed}.dart": true
+  }
+}

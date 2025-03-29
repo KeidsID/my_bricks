@@ -1,0 +1,34 @@
+name: fl_app_plus
+description: Simple brick to create flutter app with my favorite stacks.
+version: 1.0.0
+repository: https://github.com/KeidsID/my_bricks/tree/main/bricks/fl_app_plus
+
+environment:
+  mason: ^0.1.0
+
+vars:
+  project-name:
+    type: string
+    default: my_app
+    prompt: What is the name of your project?
+  desc:
+    type: string
+    default: A new Flutter project.
+    prompt: How you describe your project?
+  org:
+    type: string
+    default: com.example
+    prompt: What is your organization name?
+  import-alias:
+    type: string
+    prompt: Want to modify package import alias? Will use project name by default.
+  app-name:
+    type: string
+    prompt: What is the name of your app? Will use project name by default.
+  gitlint-scopes:
+    type: list
+    prompt: 'Want to specify conventional commit scopes (e.g "root, github") ?'
+  gitlint-ref-prefix:
+    type: string
+    default: "#"
+    prompt: 'Want to specify conventional commit reference prefix? (e.g "ref-")'

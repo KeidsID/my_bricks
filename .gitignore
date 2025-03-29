@@ -1,0 +1,5 @@
+.mason
+mason-lock.json
+
+./.vscode
+build
