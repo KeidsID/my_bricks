@@ -73,6 +73,25 @@ Most of them need to generate its utilities with [build_runner].
    flutter run -d <device-id>
    ```
 
+## Project Structures
+
+[clean-architecture]:
+  https://medium.com/@DrunknCode/clean-architecture-simplified-and-in-depth-guide-026333c54454
+
+By default, this project follow the [clean-architecture], but you may modify it
+to fit your needs since only `/interfaces/` layers example are provided.
+
+```txt
+├── ~/domain/ (repos/services abstraction, and data entities)
+├── ~/infrastructures/ (repos/services implementation, "data" layer stored here too)
+├── ~/use_cases/ (app logic)
+└── ~/interfaces/ (app UI/UX, also known as "presentation" layer)
+```
+
+[dicoding_story_fl]: https://github.com/KeidsID/dicoding_story_fl
+
+If you want complete example of this structure, visit [dicoding_story_fl].
+
 ## Git Conventions
 
 [conventional-commits]: https://www.conventionalcommits.org

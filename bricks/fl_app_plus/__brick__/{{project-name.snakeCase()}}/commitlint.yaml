@@ -2,9 +2,8 @@
 include: package:commitlint_cli/commitlint.yaml
 
 {{#has-gitlint-ref-prefix}}parser:
-  issuePrefixes:
-    - {{gitlint-ref-prefix}}{{/has-gitlint-ref-prefix}}
-    
+  issuePrefixes: [{{gitlint-ref-prefix}}]{{/has-gitlint-ref-prefix}}
+
 # https://hyiso.github.io/commitlint/#/references-rules
 rules:
   {{#has-gitlint-scopes}}scope-enum:
