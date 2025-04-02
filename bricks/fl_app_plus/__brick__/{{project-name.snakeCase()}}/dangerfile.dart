@@ -13,9 +13,9 @@ abstract class GitlintConfig {
     "test",
   ];
 
-  static const List<String> scopes = [
-    {{#gitlint-scopes}}"{{.}}",
-  {{/gitlint-scopes}}];
+  static const List<String> scopes = [{{#gitlint-scopes}}
+    "{{.}}",{{/gitlint-scopes}}
+  ];
 
   static const List<String> issuePrefixes = ["{{gitlint-ref-prefix}}", "release-"];
 

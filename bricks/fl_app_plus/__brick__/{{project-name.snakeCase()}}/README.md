@@ -20,7 +20,7 @@
   You may use [fvm] (Flutter Version Manager) for easy installation.
 
   ```sh
-  fvm use
+  fvm use prod
   ```
 
 ## Dependencies
@@ -33,10 +33,10 @@ Main packages that are used as foundation for this project.
 [go_router]: https://pub.dev/packages/go_router
 [riverpod]: https://riverpod.dev
 
-- [freezed] -- Data model with less boilerplate syntax.
-- [injectable] -- Dependency injection framework.
-- [go_router] -- Web friendly routing.
-- [riverpod] -- State management.
+- [freezed] ~ Data class with less boilerplate syntax.
+- [injectable] ~ Dependency injection framework.
+- [go_router] ~ Web friendly routing.
+- [riverpod] ~ State management.
 
 Most of them need to generate its utilities with [build_runner].
 
@@ -73,6 +73,23 @@ Most of them need to generate its utilities with [build_runner].
    flutter run -d <device-id>
    ```
 
+{{#has-import-alias}}## Package Import Alias
+
+[pubspec.yaml]: ./pubspec.yaml
+
+This project modified its name in [pubspec.yaml] to
+`{{import-alias.snakeCase()}}`, so default package import won't work.
+
+```dart
+// Do
+import "package:{{import-alias.snakeCase()}}/main.dart";
+
+// Instead of
+import "package:{{project-name.snakeCase()}}/main.dart";
+```
+
+{{/has-import-alias}}
+
 ## Project Structures
 
 [clean-architecture]:
@@ -82,10 +99,11 @@ By default, this project follow the [clean-architecture], but you may modify it
 to fit your needs since only `/interfaces/` layers example are provided.
 
 ```txt
-├── ~/domain/ (repos/services abstraction, and data entities)
-├── ~/infrastructures/ (repos/services implementation, "data" layer stored here too)
-├── ~/use_cases/ (app logic)
-└── ~/interfaces/ (app UI/UX, also known as "presentation" layer)
+└── lib/
+    ├── domain/ (repos/services abstraction, and data entities)
+    ├── infrastructures/ (repos/services implementation, "data" layer stored here too)
+    ├── use_cases/ (app logic)
+    └── interfaces/ (app UI/UX, also known as "presentation" layer)
 ```
 
 [dicoding_story_fl]: https://github.com/KeidsID/dicoding_story_fl
@@ -95,6 +113,7 @@ If you want complete example of this structure, visit [dicoding_story_fl].
 ## Git Conventions
 
 [conventional-commits]: https://www.conventionalcommits.org
+[release-please-action]: https://github.com/googleapis/release-please-action
 
 We use [conventional-commits] to handle Git commit messages, and Github PR
 titles.
@@ -120,6 +139,9 @@ Examples:
 
 - `feat: add foo abstraction {{gitlint-ref-prefix}}89`
 - `fix: fix invalid behavior of bar method {{gitlint-ref-prefix}}82`
+
+> Since [release-please-action] will need PR hash ref on commit msg, we won't
+> recommend to do rebase merge on `main` branch.
 
 ### Branch Name
 
