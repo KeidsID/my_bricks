@@ -20,7 +20,7 @@
   You may use [fvm] (Flutter Version Manager) for easy installation.
 
   ```sh
-  fvm use
+  fvm use prod
   ```
 
 ## Dependencies
@@ -82,10 +82,11 @@ By default, this project follow the [clean-architecture], but you may modify it
 to fit your needs since only `/interfaces/` layers example are provided.
 
 ```txt
-├── ~/domain/ (repos/services abstraction, and data entities)
-├── ~/infrastructures/ (repos/services implementation, "data" layer stored here too)
-├── ~/use_cases/ (app logic)
-└── ~/interfaces/ (app UI/UX, also known as "presentation" layer)
+└── lib/
+    ├── domain/ (repos/services abstraction, and data entities)
+    ├── infrastructures/ (repos/services implementation, "data" layer stored here too)
+    ├── use_cases/ (app logic)
+    └── interfaces/ (app UI/UX, also known as "presentation" layer)
 ```
 
 [dicoding_story_fl]: https://github.com/KeidsID/dicoding_story_fl

@@ -11,24 +11,31 @@ vars:
     type: string
     default: my_app
     prompt: What is the name of your project?
+
   desc:
     type: string
     default: A new Flutter project.
     prompt: How you describe your project?
+
   org:
     type: string
     default: com.example
     prompt: What is your organization name?
+
   import-alias:
     type: string
-    prompt: Want to modify package import alias? Will use project name by default.
+    prompt:
+      Want to modify package import alias? Will use project name by default.
+
   app-name:
     type: string
     prompt: What is the name of your app? Will use project name by default.
+
   gitlint-scopes:
     type: list
-    prompt: 'Want to specify conventional commit scopes (e.g "root, github") ?'
+    prompt: 'Want to specify conventional commit scopes? (e.g "root, github")'
+
   gitlint-ref-prefix:
     type: string
     default: "#"
-    prompt: 'Want to specify conventional commit reference prefix? (e.g "ref-")'
+    prompt: 'Want to modify conventional commit reference prefix? (e.g "ref-")'
