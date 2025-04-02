@@ -37,13 +37,14 @@ class HookConfigs {
     org,
     appName,
     importAlias,
+    hasImportAlias,
     gitlintScopes,
     hasGitlintScopes,
     gitlintRefPrefix,
     hasGitlintRefPrefix,
     cdWorkflow,
     ciPrWorkflow,
-    ciWorkflow
+    ciWorkflow,
   ];
 
   Map<String, dynamic> get _vars => context.vars;
@@ -87,6 +88,16 @@ class HookConfigs {
     if (raw is String && raw.isNotEmpty) value = raw;
 
     return (key: key, value: ImportAlias(value.snakeCase));
+  }
+
+  /// Indicate that [importAlias] is provided and not using [projectName].
+  ///
+  /// Used by brick to do conditional build.
+  HookConfigsGetter<bool> get hasImportAlias {
+    final key = "has-${BrickVars.importAlias.key}";
+    final value = importAlias.value as String != projectName.value;
+
+    return (key: key, value: value);
   }
 
   HookConfigsGetter<List> get gitlintScopes {
